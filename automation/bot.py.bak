@@ -1,0 +1,260 @@
+import os
+import time
+import threading
+import signal
+import logging
+import requests
+from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+from dotenv import load_dotenv
+from appium import webdriver
+from appium.options.android import UiAutomator2Options
+from appium.webdriver.common.appiumby import AppiumBy
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler(), logging.FileHandler("flexbot.log")]
+)
+logger = logging.getLogger(__name__)
+
+# Load environment variables
+load_dotenv()
+FLEX_USERNAME = os.getenv("FLEX_USERNAME")
+FLEX_PASSWORD = os.getenv("FLEX_PASSWORD")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+APP_PACKAGE = os.getenv("APP_PACKAGE", "com.amazon.flex.rabbit")
+APP_ACTIVITY = os.getenv("APP_ACTIVITY", ".MainActivity")
+DEVICE_NAME = os.getenv("DEVICE_NAME", "emulator-5554")
+APPIUM_PORT = os.getenv("APPIUM_PORT", "4724")
+REFRESH_FAST_INTERVAL = float(os.getenv("REFRESH_FAST_INTERVAL", "0.3"))
+REFRESH_SLOW_INTERVAL = float(os.getenv("REFRESH_SLOW_INTERVAL", "1.5"))
+SCAN_FAST_INTERVAL = float(os.getenv("SCAN_FAST_INTERVAL", "0.15"))
+SCAN_SLOW_INTERVAL = float(os.getenv("SCAN_SLOW_INTERVAL", "1.2"))
+CPU_SAVER_ENABLED = os.getenv("CPU_SAVER_ENABLED", "true").lower() == "true"
+CPU_SAVER_MAX_IDLE = int(os.getenv("CPU_SAVER_MAX_IDLE", "10"))
+CPU_SAVER_STEP = int(os.getenv("CPU_SAVER_STEP", "2"))
+HOUR_RANGE = os.getenv("HOUR_RANGE", "6-22")
+MIN_RATE = float(os.getenv("MIN_RATE", "25"))
+MIN_DURATION = int(os.getenv("MIN_DURATION", "60"))
+MAX_DURATION = int(os.getenv("MAX_DURATION", "240"))
+DAYS = os.getenv("DAYS", "Mon,Tue,Wed,Thu,Fri,Sat,Sun").split(",")
+
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=5))
+def send_telegram_message(message: str):
+    """Send a message to Telegram with retry logic."""
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    response = requests.get(url, params={"chat_id": TELEGRAM_CHAT_ID, "text": message}, timeout=5)
+    if not response.ok:
+        logger.error(f"Telegram error: {response.status_code} - {response.text}")
+    response.raise_for_status()
+
+class FlexBot:
+    def __init__(self):
+        self.driver = None
+        self.lock = threading.Lock()
+        self.running = True
+        self.grabbed_blocks = set()
+        self.blocks_seen = False
+        self.idle_time = 0
+        signal.signal(signal.SIGINT, self.signal_handler)
+
+    def signal_handler(self, sig, frame):
+        """Handle graceful shutdown on interrupt."""
+        logger.info("Shutting down bot...")
+        self.running = False
+        if self.driver:
+            try:
+                self.driver.quit()
+            except Exception as e:
+                logger.error(f"Error quitting driver: {e}")
+        exit(0)
+
+    def start_driver(self):
+        """Initialize Appium driver with increased adbExecTimeout."""
+        try:
+            options = UiAutomator2Options()
+            options.set_capability("platformName", "Android")
+            options.set_capability("deviceName", DEVICE_NAME)
+            options.set_capability("appPackage", APP_PACKAGE)
+            options.set_capability("appActivity", APP_ACTIVITY)
+            options.set_capability("noReset", True)
+            options.set_capability("automationName", "UiAutomator2")
+            options.set_capability("uiautomator2ServerLaunchTimeout", 60000)
+            options.set_capability("adbExecTimeout", 120000)
+            # Try modern Appium URL first
+            try:
+                self.driver = webdriver.Remote(f"http://127.0.0.1:{APPIUM_PORT}/", options=options)
+            except WebDriverException as e:
+                logger.warning(f"Modern URL failed: {e}. Trying legacy URL...")
+                self.driver = webdriver.Remote(f"http://127.0.0.1:{APPIUM_PORT}/wd/hub", options=options)
+            self.driver.implicitly_wait(2)
+            logger.info("Appium driver started successfully")
+        except WebDriverException as e:
+            logger.error(f"Failed to start Appium driver: {e}")
+            send_telegram_message(f"Failed to start Appium driver: {e}")
+            raise
+
+    def login(self):
+        """Log in to the Amazon Flex app."""
+        try:
+            username_field = self.driver.find_element(AppiumBy.ID, "username_input")
+            username_field.send_keys(FLEX_USERNAME)
+            password_field = self.driver.find_element(AppiumBy.ID, "password_input")
+            password_field.send_keys(FLEX_PASSWORD)
+            login_button = self.driver.find_element(AppiumBy.ID, "login_button")
+            login_button.click()
+            time.sleep(3)
+            send_telegram_message("Login successful")
+            logger.info("Login successful")
+            return True
+        except NoSuchElementException as e:
+            logger.error(f"Login failed: Element not found - {e}")
+            send_telegram_message(f"Login failed: Element not found - {e}")
+            return False
+        except Exception as e:
+            logger.error(f"Login failed: {e}")
+            send_telegram_message(f"Login failed: {e}")
+            return False
+
+    def is_within_time_and_day(self, block_time: str):
+        """Check if block time is within allowed hours and days."""
+        try:
+            current_time = datetime.now()
+            current_day = current_time.strftime("%a")
+            if current_day not in DAYS:
+                return False
+            start_hour, end_hour = map(int, HOUR_RANGE.split("-"))
+            block_hour = datetime.strptime(block_time, "%H:%M").hour
+            return start_hour <= block_hour <= end_hour
+        except Exception as e:
+            logger.error(f"Time/day filter error: {e}")
+            return False
+
+    def refresh_feed(self):
+        """Refresh the app feed with adaptive rate."""
+        while self.running:
+            try:
+                refresh_btn = self.driver.find_element(AppiumBy.ID, "refresh_button")
+                if refresh_btn.is_displayed() and refresh_btn.is_enabled():
+                    refresh_btn.click()
+                    logger.info("[REFRESH] Feed refreshed")
+                    self.blocks_seen = True
+                    self.idle_time = 0
+                else:
+                    logger.warning("[REFRESH] Refresh button not interactable")
+                    self.idle_time += REFRESH_SLOW_INTERVAL
+            except NoSuchElementException:
+                logger.warning("[REFRESH] Refresh button not found")
+                self.idle_time += REFRESH_SLOW_INTERVAL
+            except Exception as e:
+                logger.error(f"[REFRESH] Error: {e}")
+                self.idle_time += REFRESH_SLOW_INTERVAL
+            sleep_time = REFRESH_FAST_INTERVAL if self.blocks_seen else REFRESH_SLOW_INTERVAL
+            if CPU_SAVER_ENABLED and self.idle_time >= CPU_SAVER_MAX_IDLE:
+                sleep_time += CPU_SAVER_STEP
+                logger.info(f"[CPU_SAVER] Increasing refresh interval to {sleep_time}s")
+            time.sleep(sleep_time)
+
+    def get_available_blocks(self):
+        """Scan for available delivery blocks."""
+        blocks = []
+        try:
+            block_elements = self.driver.find_elements(AppiumBy.ID, "block_item_container")
+            with self.lock:
+                for el in block_elements:
+                    try:
+                        block_id = el.get_attribute("resourceId") + el.text
+                        if block_id in self.grabbed_blocks:
+                            continue
+                        rate_el = el.find_element(AppiumBy.ID, "block_rate")
+                        duration_el = el.find_element(AppiumBy.ID, "block_duration")
+                        time_el = el.find_element(AppiumBy.ID, "block_time")
+                        rate_text = rate_el.text.replace("$", "").strip()
+                        duration_text = duration_el.text.replace("min", "").strip()
+                        block_time = time_el.text.strip()
+                        try:
+                            rate = float(rate_text)
+                            duration = int(duration_text)
+                        except ValueError:
+                            logger.warning(f"Invalid rate/duration format: {rate_text}, {duration_text}")
+                            continue
+                        if rate < MIN_RATE or duration < MIN_DURATION or duration > MAX_DURATION:
+                            continue
+                        if not self.is_within_time_and_day(block_time):
+                            continue
+                        blocks.append({"element": el, "rate": rate, "duration": duration, "id": block_id})
+                    except NoSuchElementException:
+                        continue
+        except Exception as e:
+            logger.error(f"Block scan error: {e}")
+        self.blocks_seen = len(blocks) > 0
+        if not self.blocks_seen:
+            self.idle_time += SCAN_SLOW_INTERVAL
+        return blocks
+
+    def prioritize_blocks(self, blocks):
+        """Prioritize blocks by rate (descending) and duration (ascending)."""
+        return sorted(blocks, key=lambda x: (-x["rate"], x["duration"]))
+
+    def grab_block(self, block):
+        """Attempt to grab a delivery block."""
+        with self.lock:
+            if block["id"] in self.grabbed_blocks:
+                return
+            self.grabbed_blocks.add(block["id"])
+        try:
+            block["element"].click()
+            time.sleep(0.3)
+            confirm_btn = self.driver.find_element(AppiumBy.ID, "confirm_button")
+            confirm_btn.click()
+            send_telegram_message(f"Grabbed block ${block['rate']} ({block['duration']}min)")
+            logger.info(f"Grabbed block ${block['rate']} ({block['duration']}min)")
+        except NoSuchElementException as e:
+            logger.error(f"Failed to grab block: Element not found - {e}")
+        except Exception as e:
+            logger.error(f"Failed to grab block: {e}")
+
+    def scan_loop(self):
+        """Main loop to scan and grab blocks."""
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            while self.running:
+                blocks = self.get_available_blocks()
+                if blocks:
+                    prioritized = self.prioritize_blocks(blocks)
+                    executor.map(self.grab_block, prioritized)
+                    self.idle_time = 0
+                    time.sleep(SCAN_FAST_INTERVAL)
+                else:
+                    time.sleep(SCAN_SLOW_INTERVAL)
+                if CPU_SAVER_ENABLED and self.idle_time >= CPU_SAVER_MAX_IDLE:
+                    time.sleep(SCAN_SLOW_INTERVAL + CPU_SAVER_STEP)
+                    logger.info(f"[CPU_SAVER] Increasing scan interval to {SCAN_SLOW_INTERVAL + CPU_SAVER_STEP}s")
+
+    def run(self):
+        """Run the bot."""
+        try:
+            self.start_driver()
+            if not self.login():
+                logger.error("Login failed, exiting")
+                return
+            logger.info("Starting adaptive refresh + block scan...")
+            threading.Thread(target=self.refresh_feed, daemon=True).start()
+            self.scan_loop()
+        except Exception as e:
+            logger.error(f"Bot error: {e}")
+            send_telegram_message(f"Bot error: {e}")
+        finally:
+            if self.driver:
+                try:
+                    self.driver.quit()
+                except Exception as e:
+                    logger.error(f"Error quitting driver: {e}")
+
+if __name__ == "__main__":
+    bot = FlexBot()
+    bot.run()

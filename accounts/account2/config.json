@@ -1,0 +1,16 @@
+{
+  "appPackage": "com.amazon.rabbit",
+  "appActivity": "com.amazon.rabbit.activities.LaunchActivity",
+  "noReset": true,
+  "fullReset": false,
+
+  "email": "your-email@example.com",
+  "password": "your-password",
+  "telegram_bot_token": "AAGTpOqdQ8_gRT1ay3ha7Lz1tFucz79pseY",
+  "telegram_chat_id": "7921304861",
+  "min_rate": 20,
+  "min_duration": 60,
+  "max_duration": 240,
+  "hour_range": [6, 22],
+  "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+}

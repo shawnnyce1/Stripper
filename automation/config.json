@@ -1,0 +1,6 @@
+{
+  "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "hours": ["08:00", "12:00", "18:00"],
+  "min_rate": 18.0
+}
+

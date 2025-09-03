@@ -1,0 +1,83 @@
+[2025-07-23 11:02:13] Bot startup error: Expecting value: line 1 column 1 (char 0)
+[2025-07-23 11:05:35] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:08:48] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at processImmediate (internal/timers.js:429:9)
+[2025-07-23 11:10:50] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at processImmediate (internal/timers.js:429:9)
+[2025-07-23 11:12:52] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at processImmediate (internal/timers.js:429:9)
+[2025-07-23 11:14:31] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at processImmediate (internal/timers.js:429:9)
+[2025-07-23 11:16:24] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Could not find a connected Android device in 20166ms.
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Could not find a connected Android device in 20166ms.
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:17:33] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Could not find a connected Android device in 20200ms.
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Could not find a connected Android device in 20200ms.
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+    at runMicrotasks (<anonymous>)
+    at runNextTicks (internal/process/task_queues.js:62:5)
+    at processImmediate (internal/timers.js:429:9)
+[2025-07-23 11:22:21] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 5000ms
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 5000ms
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:29:35] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:38:22] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 5000ms
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Appium Settings app is not running after 5000ms
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:40:36] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 11:52:05] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: Error executing adbExec. Original error: 'Command 'C:\\Users\\Onyae\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe -P 5037 -s emulator-5554 shell 'settings delete global hidden_api_policy_pre_p_apps;settings delete global hidden_api_policy_p_apps;settings delete global hidden_api_policy'' exited with code 20'; Command output: cmd: Can't find service: settings
+cmd: Can't find service: settings
+cmd: Can't find service: settings
+
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: Error executing adbExec. Original error: 'Command 'C:\\Users\\Onyae\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe -P 5037 -s emulator-5554 shell 'settings delete global hidden_api_policy_pre_p_apps;settings delete global hidden_api_policy_p_apps;settings delete global hidden_api_policy'' exited with code 20'; Command output: cmd: Can't find service: settings
+cmd: Can't find service: settings
+cmd: Can't find service: settings
+
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)
+[2025-07-23 12:28:02] Bot startup error: Message: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+Stacktrace:
+UnknownError: An unknown server-side error occurred while processing the command. Original error: 'app' option is required for reinstall
+    at getResponseForW3CError (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\errors.js:804:9)
+    at asyncHandler (C:\Users\Onyae\AppData\Local\Programs\Appium Server GUI\resources\app\node_modules\appium\node_modules\appium-base-driver\lib\protocol\protocol.js:380:37)

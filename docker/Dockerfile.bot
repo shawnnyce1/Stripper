@@ -1,0 +1,6 @@
+FROM python:3.11
+WORKDIR /bot
+COPY automation /bot
+COPY backend/.env /bot/.env
+RUN pip install appium-python-client requests
+CMD ["python", "bot.py"]
