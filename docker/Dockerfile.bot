@@ -1,6 +1,51 @@
-FROM python:3.11
-WORKDIR /bot
-COPY automation /bot
-COPY backend/.env /bot/.env
-RUN pip install appium-python-client requests
-CMD ["python", "bot.py"]
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies for Appium and Android
+RUN apt-get update && apt-get install -y \
+    wget \
+    unzip \
+    curl \
+    gnupg \
+    openjdk-11-jdk \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Android SDK
+ENV ANDROID_HOME=/opt/android-sdk
+ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+RUN mkdir -p $ANDROID_HOME && \
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -O android-tools.zip && \
+    unzip android-tools.zip -d $ANDROID_HOME && \
+    rm android-tools.zip
+
+# Install Appium
+RUN npm install -g appium@2.0.0 && \
+    npm install -g appium-doctor
+
+# Install Appium drivers
+RUN appium driver install uiautomator2
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY automation/ ./automation/
+COPY accounts/ ./accounts/
+
+# Create necessary directories
+RUN mkdir -p accounts logs
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# Expose Appium port
+EXPOSE 4723
+
+# Start Appium server and bot
+CMD ["sh", "-c", "appium server --address 0.0.0.0 --port 4723 & python automation/multi_runner.py"]

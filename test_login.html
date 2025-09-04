@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+</head>
+<body>
+    <h1>Test Amazon Flex Login</h1>
+    <form id="loginForm">
+        <input type="text" id="accountName" placeholder="Account Name" required><br><br>
+        <input type="email" id="email" placeholder="Email" required><br><br>
+        <input type="password" id="password" placeholder="Password" required><br><br>
+        <select id="warehouse" required>
+            <option value="">Select Warehouse</option>
+            <option value="DCM1">DCM1 - Columbus, OH</option>
+            <option value="DCM2">DCM2 - Cincinnati, OH</option>
+        </select><br><br>
+        <button type="submit">Save Account</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                account_name: document.getElementById('accountName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                warehouse: document.getElementById('warehouse').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:8002/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                alert(result.message || 'Success!');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
