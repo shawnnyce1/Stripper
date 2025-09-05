@@ -2,10 +2,13 @@ from flask import Flask, jsonify, request
 import json
 import subprocess
 import os
+import threading
 
 app = Flask(__name__)
 
 STATUS_FILE = "flex_auth_status.json"
+bot_process = None
+bot_running = False
 
 def read_auth_status():
     try:
@@ -42,6 +45,30 @@ def login():
         return jsonify({"success": False, "message": f"Error: {e}"}), 500
 
     return jsonify({"success": True, "message": f"Login attempt started for {warehouse}"})
+
+@app.route('/toggle', methods=['POST'])
+def toggle_bot():
+    global bot_process, bot_running
+    
+    try:
+        if bot_running:
+            # Stop bot
+            if bot_process:
+                bot_process.terminate()
+                bot_process = None
+            bot_running = False
+            return jsonify({"success": True, "running": False, "message": "Bot stopped"})
+        else:
+            # Start bot
+            bot_process = subprocess.Popen(["python", "bot.py"])
+            bot_running = True
+            return jsonify({"success": True, "running": True, "message": "Bot started"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route('/status', methods=['GET'])
+def bot_status():
+    return jsonify({"running": bot_running})
 
 @app.route('/metrics', methods=['GET'])
 def metrics():

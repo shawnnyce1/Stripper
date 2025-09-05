@@ -5,11 +5,12 @@ def create_driver(account_name):
     """Initialize Appium driver for given account/device."""
     options = UiAutomator2Options()
     options.platform_name = "Android"
-    options.device_name = account_name  # MUST match `adb devices` name
-    options.app_package = "com.amazon.mShop.android.shopping"
-    options.app_activity = "com.amazon.mShop.home.HomeActivity"
     options.automation_name = "UiAutomator2"
+    options.device_name = "R94Y200EH1T"
+    options.app_package = "com.amazon.flex.rabbit"
+    options.app_activity = "com.amazon.rabbit.android.presentation.login.LoginActivity"
+    options.no_reset = True
+    options.new_command_timeout = 300
 
-    # If using different Appium ports for devices, update here
-    port = 4723  # Or dynamically assign per account if needed
+    port = 4723
     return webdriver.Remote(f"http://localhost:{port}/wd/hub", options=options)

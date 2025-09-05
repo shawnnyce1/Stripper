@@ -68,3 +68,51 @@ Error: The Android SDK root folder 'C:\Android
     at AndroidUiautomator2Driver.getDeviceInfoFromCaps (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\common.js:29:15)
     at AndroidUiautomator2Driver.createSession (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\lib\driver.ts:360:30)
     at AppiumDriver.createSession (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\lib\appium.js:360:35)
+2025-09-04 11:04:48,948 - ERROR - Failed to setup driver: Message: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\errors.ts:1103:34)
+    at asyncHandler (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\protocol.ts:507:57)
+The above error is caused by
+Error: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\helpers.js:81:11)
+    at Function.createADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\adb.ts:131:19)
+    at createBaseADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\utils.js:137:10)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\common.js:29:15)
+    at AndroidUiautomator2Driver.createSession (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\lib\driver.ts:360:30)
+    at AppiumDriver.createSession (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\lib\appium.js:360:35)
+2025-09-04 11:57:19,533 - ERROR - Failed to setup driver: Message: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\errors.ts:1103:34)
+    at asyncHandler (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\protocol.ts:507:57)
+The above error is caused by
+Error: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\helpers.js:81:11)
+    at Function.createADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\adb.ts:131:19)
+    at createBaseADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\utils.js:137:10)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\common.js:29:15)
+    at AndroidUiautomator2Driver.createSession (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\lib\driver.ts:360:30)
+    at AppiumDriver.createSession (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\lib\appium.js:360:35)
+2025-09-04 11:57:19,533 - ERROR - Failed to setup driver: Message: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+Stacktrace:
+UnknownError: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at getResponseForW3CError (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\errors.ts:1103:34)
+    at asyncHandler (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\node_modules\@appium\base-driver\lib\protocol\protocol.ts:507:57)
+The above error is caused by
+Error: The Android SDK root folder 'C:\Android
+' does not exist on the local file system. Read https://developer.android.com/studio/command-line/variables for more details
+    at requireSdkRoot (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\helpers.js:81:11)
+    at Function.createADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-adb\lib\adb.ts:131:19)
+    at createBaseADB (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\utils.js:137:10)
+    at AndroidUiautomator2Driver.getDeviceInfoFromCaps (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\node_modules\appium-android-driver\lib\commands\device\common.js:29:15)
+    at AndroidUiautomator2Driver.createSession (C:\Users\Akpor Samuel\.appium\node_modules\appium-uiautomator2-driver\lib\driver.ts:360:30)
+    at AppiumDriver.createSession (C:\Users\Akpor Samuel\AppData\Roaming\npm\node_modules\appium\lib\appium.js:360:35)

@@ -1,36 +1,27 @@
-import os
-import json
-from dotenv import load_dotenv
+# Amazon Flex Grabber Configuration
 
-# Path to project root and .env file
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-env_path = os.path.join(project_root, '.env')
-load_dotenv(dotenv_path=env_path)
+# Device Settings
+DEVICE_NAME = "R94Y200EH1T"  # Your device ID
+ANDROID_HOME = r'C:\Users\Akpor Samuel\AppData\Local\Android\Sdk'
 
-def load_env_config():
-    required_keys = ["HOUR_RANGE", "TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
-    config = {}
-    for key in required_keys:
-        value = os.getenv(key)
-        if not value:
-            raise KeyError(f"Missing required config key: {key}")
-        config[key.lower()] = value
-    return config
+# App Settings
+APP_PACKAGE = "com.amazon.flex.rabbit"
+APP_ACTIVITY = "com.amazon.rabbit.android.presentation.login.LoginActivity"
 
-def load_account_config(account_path):
-    config_path = os.path.join(account_path, "config.json")
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f"Config not found for account: {config_path}")
+# Grabber Settings
+MAX_ATTEMPTS = 100  # Maximum number of attempts
+REFRESH_INTERVAL = 3  # Seconds between refreshes
+CLICK_DELAY = 1  # Delay between clicks
+TIMEOUT = 10  # Element wait timeout
 
-    with open(config_path, encoding="utf-8") as f:
-        data = json.load(f)
+# Block Preferences (customize these based on your preferences)
+MIN_RATE = 18  # Minimum hourly rate ($)
+PREFERRED_TIMES = ["6:00", "7:00", "8:00", "18:00", "19:00", "20:00"]  # Preferred start times
+AVOID_TIMES = ["12:00", "13:00", "14:00"]  # Times to avoid
 
-    required = ["days", "hour_range", "min_rate", "min_duration", "max_duration"]
-    for key in required:
-        if key not in data:
-            raise KeyError(f"Missing config key: {key}")
+# Appium Server
+APPIUM_SERVER = "http://127.0.0.1:4723"
 
-    if not isinstance(data["hour_range"], list) or len(data["hour_range"]) != 2:
-        raise ValueError("hour_range must be a list like ['08:00', '18:00']")
-
-    return data
+# Logging
+ENABLE_LOGGING = True
+LOG_FILE = "flex_grabber.log"

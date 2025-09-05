@@ -3,17 +3,11 @@
     "alwaysMatch": {
       "platformName": "Android",
       "appium:automationName": "UiAutomator2",
-      "appium:deviceName": "emulator-5554",
-      "appium:platformVersion": "15",
+      "appium:deviceName": "R94Y200EH1T",
       "appium:appPackage": "com.amazon.flex.rabbit",
-      "appium:appActivity": "com.amazon.rabbit.android.presentation.core.LaunchActivity",
+      "appium:appActivity": "com.amazon.rabbit.android.presentation.login.LoginActivity",
       "appium:noReset": true,
-      "appium:newCommandTimeout": 60000,
-      "appium:ensureWebviewsHavePages": true,
-      "appium:nativeWebScreenshot": true,
-      "appium:connectHardwareKeyboard": true,
-      "appium:uiautomator2ServerInstallTimeout": 120000,
-      "appium:uiautomator2ServerLaunchTimeout": 120000
+      "appium:newCommandTimeout": 300
     },
     "firstMatch": [{}]
   }
